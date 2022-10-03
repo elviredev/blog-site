@@ -9,6 +9,7 @@ if(isset($messages)){
       ';
     }
 }
+
 ?>
 
 <header class="header">
@@ -32,8 +33,8 @@ if(isset($messages)){
     </div>
     <nav class="navbar">
         <a href="../admin/dashboard.php"><i class="fas fa-home"></i><span>accueil</span></a>
-        <a href="../admin/add_posts.php"><i class="fas fa-pen"></i><span>ajout post</span></a>
-        <a href="../admin/view_posts.php"><i class="fas fa-eye"></i><span>vue posts</span></a>
+        <a href="../admin/add_posts.php"><i class="fas fa-pen"></i><span>ajout article</span></a>
+        <a href="../admin/view_posts.php"><i class="fas fa-eye"></i><span>vue articles</span></a>
         <a href="../admin/admin_accounts.php"><i class="fas fa-user"></i><span>comptes</span></a>
         <a href="../components/admin_logout.php" onclick="return confirm('se déconnecter su site ?')"><i class="fas fa-right-from-bracket"></i><span style="color:var(--red);">déconnexion</span></a>
     </nav>

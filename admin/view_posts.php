@@ -8,6 +8,34 @@ if(!isset($admin_id)){
     header('location:admin_login.php');
 }
 
+// Supprimer un article
+if(isset($_POST['delete'])) {
+    $delete_id = htmlentities($_POST['post_id']);
+
+    if(!empty($conn)) {
+        // Supprimer image
+        $select_image = $conn->prepare("SELECT * FROM `posts` WHERE id = ?");
+        $select_image->execute([$delete_id]);
+        // fetch retourne un booleen dans un tableau donc vérifier si le champs est définit sinon retourner une chaine vide
+        $fetch_imageRes = $select_image->fetch(PDO::FETCH_ASSOC);
+        $fetch_image = isset($fetch_imageRes['image']) ? $fetch_imageRes['image'] : '';
+        if($fetch_image != '') {
+            unlink('../uploaded_img/'.$fetch_image);
+        }
+        // Supprimer commentaires
+        $delete_comments = $conn->prepare("DELETE FROM `comments` WHERE post_id = ?");
+        $delete_comments->execute([$delete_id]);
+        // Supprimer likes
+        $delete_likes = $conn->prepare("DELETE FROM `likes` WHERE post_id = ?");
+        $delete_likes->execute([$delete_id]);
+        // Supprimer l'article
+        $delete_post = $conn->prepare("DELETE FROM `posts` WHERE id = ?");
+        $delete_post->execute([$delete_id]);
+
+        $messages[] = 'Article supprimé !';
+    }
+}
+
 ?>
 
 <!doctype html>
@@ -29,79 +57,75 @@ if(!isset($admin_id)){
 
 <section class="show-posts">
     <h1 class="heading">Vos articles</h1>
+
+    <form action="search_page.php" method="post" class="search-form">
+        <input type="text" name="search_item" placeholder="Rechercher un article..." maxlength="100" required>
+        <button class="fas fa-search" name="search_btn"></button>
+    </form>
+    
     <div class="box-container">
-<!--        <div class="row">-->
+        <?php
+            // Afficher les posts de l'admin
+            $select_posts = $conn->prepare("SELECT * FROM `posts` WHERE admin_id = ?");
+            $select_posts->execute([$admin_id]);
+            // s'il y a des enregistrements en BDD
+            if($select_posts->rowCount() > 0) {
+                // Tant qu'il y a des enregistrements, on récupère les champs des posts
+                while ($fetch_post = $select_posts->fetch(PDO::FETCH_ASSOC)) {
+                    // recupère l'ID du post
+                    $post_id = $fetch_post['id'];
 
+                    // Affiche les commentaires de chaque post
+                    $count_post_comments = $conn->prepare("SELECT * FROM `comments` WHERE post_id = ?");
+                    $count_post_comments->execute([$post_id]);
+                    // compte le nb total de commentaires pour le post
+                    $total_post_comments = $count_post_comments->rowCount();
+
+                    // Affiche les likes de chaque post
+                    $count_post_likes = $conn->prepare("SELECT * FROM `likes` WHERE post_id = ?");
+                    $count_post_likes->execute([$post_id]);
+                    // compte le nb total de likes pour le post
+                    $total_post_likes = $count_post_likes->rowCount();
+        ?>
+        <form action="" method="post" class="box">
+            <input type="hidden" name="post_id" value="<?= $post_id ?>">
+            <div class="status" style="background: <?php if($fetch_post['status'] == 'active'){echo 'limegreen';}else{echo 'coral';} ?>"><?= $fetch_post['status']?></div>
+            <!-- Image start -->
             <?php
-                if(!empty($conn)) {
-                    // Afficher les posts de l'admin
-                    $select_posts = $conn->prepare("SELECT * FROM `posts` WHERE admin_id = ?");
-                    $select_posts->execute([$admin_id]);
-                    // s'il y a des enregistrements en BDD
-                    if($select_posts->rowCount() > 0) {
-                        // Tant qu'il y a des enregistrents, on récupère les champs des posts
-                        while ($fetch_post = $select_posts->fetch(PDO::FETCH_ASSOC)) {
-                            // recupère l'ID du post
-                            $post_id = $fetch_post['id'];
-
-                            // Affiche les commentaires de chaque post
-                            $count_post_comments = $conn->prepare("SELECT * FROM `comments` WHERE post_id = ?");
-                            $count_post_comments->execute([$post_id]);
-                            // compte le nb total de commentaires pour le post
-                            $total_post_comments = $count_post_comments->rowCount();
-
-                            // Affiche les likes de chaque post
-                            $count_post_likes = $conn->prepare("SELECT * FROM `likes` WHERE post_id = ?");
-                            $count_post_likes->execute([$post_id]);
-                            // compte le nb total de likes pour le post
-                            $total_post_likes = $count_post_likes->rowCount();
+                if($fetch_post['image'] != '') {
             ?>
-            <form action="" method="post" class="box">
-                <input type="hidden" name="post_id" value="<?= $post_id ?>">
-                <div class="status" style="background: <?php if($fetch_post['status'] == 'active'){echo 'limegreen';}else{echo 'coral';} ?>"><?= $fetch_post['status']?></div>
-                <!-- Image start -->
-                <?php
-                    if($fetch_post['image'] != '') {
-                ?>
-                        <img src="../uploaded_img/<?= $fetch_post['image'] ?>" alt="<?= $fetch_post['image'] ?>" class="image">
-                <?php
-                    }
-                ?>
-                <!-- Image end -->
-                <div class="post-title"><?= $fetch_post['title'] ?></div>
-                <div class="post-content"><?= $fetch_post['content'] ?></div>
-                <div class="icons">
-                    <div>
-                        <i class="fas fa-comment"></i>
-                        <span><?= $total_post_comments ?></span>
-                    </div>
-                    <div>
-                        <i class="fas fa-heart"></i>
-                        <span><?= $total_post_likes ?></span>
-                    </div>
-                </div>
-                <div class="flex-btn">
-                    <a href="edit_post.php?post_id=<?= $post_id ?>" class="option-btn">Modifier</a>
-                    <button type="submit" name="delete" class="delete-btn">supprimer</button>
-                </div>
-                <a href="read_post.php?post_id=<?= $post_id ?>" class="btn">Voir article</a>
-            </form>
+                    <img src="../uploaded_img/<?= $fetch_post['image'] ?>" alt="<?= $fetch_post['image'] ?>" class="image">
             <?php
-                        }
-                    } else {
-                        echo '<p class="empty">Pas d\'articles ajoutés pour l\'instant !</p>';
-                    }
                 }
             ?>
-
-<!--        </div>-->
-
+            <!-- Image end -->
+            <div class="post-title"><?= $fetch_post['title'] ?></div>
+            <div class="post-content"><?= $fetch_post['content'] ?></div>
+            <div class="icons">
+                <div>
+                    <i class="fas fa-comment"></i>
+                    <span><?= $total_post_comments ?></span>
+                </div>
+                <div>
+                    <i class="fas fa-heart"></i>
+                    <span><?= $total_post_likes ?></span>
+                </div>
+            </div>
+            <div class="flex-btn">
+                <a href="edit_post.php?post_id=<?= $post_id ?>" class="option-btn">Modifier</a>
+                <button type="submit" name="delete" class="delete-btn" onclick="return confirm('Voulez-vous supprimer cet article ?')">supprimer</button>
+            </div>
+            <a href="read_post.php?post_id=<?= $post_id ?>" class="btn">Voir article</a>
+        </form>
+        <?php
+                }
+            } else {
+                echo '<p class="empty">Pas d\'articles ajoutés pour l\'instant !</p>';
+            }
+        ?>
+        
     </div>
 </section>
-
-
-
-
 
 <script src="../js/admin_script.js"></script>
 </body>
