@@ -42,9 +42,8 @@ if(!isset($admin_id)) {
 
         <div class="box">
             <?php
-                $select_posts = $conn->prepare("SELECT * FROM `posts` WHERE admin_id = :id");
-                $select_posts->bindValue(":id", $admin_id, PDO::PARAM_INT);
-                $select_posts->execute();
+                $select_posts = $conn->prepare("SELECT * FROM `posts` WHERE admin_id = ?");
+                $select_posts->execute([$admin_id]);
                 $number_of_posts = $select_posts->rowCount();
             ?>
             <h3><?php echo $number_of_posts ?></h3>
@@ -58,7 +57,7 @@ if(!isset($admin_id)) {
             $select_active_posts->execute([$admin_id, 'active']);
             $number_of_active_posts = $select_active_posts->rowCount();
             ?>
-            <h3><?php echo $number_of_posts ?></h3>
+            <h3><?php echo $number_of_active_posts ?></h3>
             <p>articles actifs</p>
             <a href="view_posts.php" class="btn">voir les articles</a>
         </div>
@@ -69,7 +68,7 @@ if(!isset($admin_id)) {
             $select_desactive_posts->execute([$admin_id, 'desactive']);
             $number_of_desactive_posts = $select_desactive_posts->rowCount();
             ?>
-            <h3><?php echo $number_of_posts ?></h3>
+            <h3><?php echo $number_of_desactive_posts ?></h3>
             <p>articles non actifs</p>
             <a href="view_posts.php" class="btn">voir les articles</a>
         </div>
