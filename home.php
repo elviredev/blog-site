@@ -81,13 +81,15 @@ if(isset($_SESSION['user_id'])) {
                 <a href="category.php?category=nature" class="links">nature</a>
                 <a href="category.php?category=voyage" class="links">voyage</a>
                 <a href="category.php?category=news" class="links">news</a>
-                <a href="category.php?category=education" class="links">education</a>
+                <a href="category.php?category=films" class="links">films</a>
                 <a href="category.php?category=gaming" class="links">gaming</a>
+                <a href="category.php?category=animaux" class="links">animaux</a>
                 <a href="category.php?category=sports" class="links">sports</a>
                 <a href="category.php?category=business" class="links">business</a>
                 <a href="category.php?category=mode" class="links">mode</a>
-                <a href="category.php?category=design" class="links">design</a>
-                <a href="category.php?category=personnel" class="links">personnel</a>
+                <a href="category.php?category=nourriture" class="links">nourriture</a>
+                <a href="category.php?category=informatique" class="links">informatique</a>
+
                 <a href="all_category.php" class="btn" >tout voir</a>
 
             </div>
