@@ -8,6 +8,7 @@ if(isset($_SESSION['user_id'])) {
     $user_id = '';
 }
 
+@include 'components/like_post.php';
 
 ?>
 
@@ -52,15 +53,16 @@ if(isset($_SESSION['user_id'])) {
                     $count_user_likes->execute([$user_id]);
                     $total_user_likes = $count_user_likes->rowCount();
                     ?>
-                    <p>bienvenue <?= $fetch_profile['name'] ?></p>
-                    <p>total commentaires : <?= $total_user_comments ?></p>
-                    <p>total avis : <?= $total_user_likes ?></p>
-                    <a href="update.php">modifier profil</a>
+                    <p>bienvenue <span><?= $fetch_profile['name'] ?></span></p>
+                    <p>total commentaires : <span><?= $total_user_comments ?></span></p>
+                    <p>total avis : <span><?= $total_user_likes ?></span></p>
+                    <a href="update.php" class="btn">modifier profil</a>
                     <div class="flex-btn">
                         <a href="login.php" class="option-btn">se connecter</a>
                         <a href="register.php" class="option-btn">s'enregistrer</a>
                     </div>
-                    <a href="user_logout.php" class="delete-btn" onclick="return confirm('Se déconnecter du site ?')">se déconnecter</a>
+                    <a href="components/user_logout.php" class="delete-btn" onclick="return confirm('Se déconnecter du site ?')">se
+                        déconnecter</a>
                     <?php
                 } else {
                     ?>
@@ -143,6 +145,10 @@ if(isset($_SESSION['user_id'])) {
                 $count_post_likes = $conn->prepare("SELECT * FROM `likes` WHERE post_id = ?");
                 $count_post_likes->execute([$post_id]);
                 $total_post_likes = $count_post_likes->rowCount();
+
+                // Affiche les likes du post et de l'user
+                $confirm_likes = $conn->prepare("SELECT * FROM `likes` WHERE user_id = ? AND post_id = ?");
+                $confirm_likes->execute([$user_id, $post_id]);
         ?>
                 <form action="" method="post" class="box">
                     <input type="hidden" name="post_id" value="<?= $post_id ?>">
@@ -174,7 +180,7 @@ if(isset($_SESSION['user_id'])) {
                             <span><?= $total_post_comments ?></span>
                         </a>
                         <button type="submit" name="like_post">
-                            <i class="fas fa-heart"></i>
+                            <i class="fas fa-heart" style="<?php if($confirm_likes->rowCount() > 0){echo 'color:var(--red)';} ?>"></i>
                             <span><?= $total_post_likes ?></span>
                         </button>
                     </div>

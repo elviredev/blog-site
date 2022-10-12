@@ -106,7 +106,9 @@ if(isset($_SESSION['user_id'])) {
 
 </section>
 
-
+<!-- FOOTER SECTION START -->
+<?php include 'components/footer.php'; ?>
+<!-- FOOTER SECTION END -->
 
 <script src="./js/script.js"></script>
 </body>

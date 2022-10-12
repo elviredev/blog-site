@@ -1,3 +1,17 @@
+<?php
+if(isset($messages)){
+    foreach($messages as $message){
+        echo '
+      <div class="message">
+         <span>'.$message.'</span>
+         <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
+      </div>
+      ';
+    }
+}
+
+?>
+
 <header class="header">
     <section class="flex">
         <a href="home.php" class="logo">BlogElv.</a>
@@ -32,12 +46,14 @@
                     $fetch_profile = $select_profile->fetch(PDO::FETCH_ASSOC);
             ?>
                     <p><?= $fetch_profile['name'] ?></p>
-                    <a href="update.php">modifier profil</a>
+                    <a href="update.php" class="btn">modifier profil</a>
                     <div class="flex-btn">
                         <a href="login.php" class="option-btn">se connecter</a>
                         <a href="register.php" class="option-btn">s'enregistrer</a>
                     </div>
-                    <a href="user_logout.php" class="delete-btn" onclick="return confirm('Se déconnecter du site ?')">se déconnecter</a>
+                    <a href="components/user_logout.php" class="delete-btn" onclick="return confirm('Se déconnecter ' +
+                     'du site ?')">se
+                        déconnecter</a>
             <?php
                 } else {
             ?>

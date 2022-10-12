@@ -14,6 +14,8 @@ if (isset($_GET['author'])) {
     $author = '';
 }
 
+@include 'components/like_post.php';
+
 ?>
 
 <!doctype html>
@@ -54,6 +56,10 @@ if (isset($_GET['author'])) {
                 $count_post_likes = $conn->prepare("SELECT * FROM `likes` WHERE post_id = ?");
                 $count_post_likes->execute([$post_id]);
                 $total_post_likes = $count_post_likes->rowCount();
+
+                // Affiche les likes du post et de l'user
+                $confirm_likes = $conn->prepare("SELECT * FROM `likes` WHERE user_id = ? AND post_id = ?");
+                $confirm_likes->execute([$user_id, $post_id]);
                 ?>
                 <form action="" method="post" class="box">
                     <input type="hidden" name="post_id" value="<?= $post_id ?>">
@@ -85,7 +91,7 @@ if (isset($_GET['author'])) {
                             <span><?= $total_post_comments ?></span>
                         </a>
                         <button type="submit" name="like_post">
-                            <i class="fas fa-heart"></i>
+                            <i class="fas fa-heart" style="<?php if($confirm_likes->rowCount() > 0){echo 'color:var(--red)';} ?>"></i>
                             <span><?= $total_post_likes ?></span>
                         </button>
                     </div>
@@ -100,7 +106,9 @@ if (isset($_GET['author'])) {
 
 </section>
 
-
+<!-- FOOTER SECTION START -->
+<?php include 'components/footer.php'; ?>
+<!-- FOOTER SECTION END -->
 
 <script src="./js/script.js"></script>
 </body>
