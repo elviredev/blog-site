@@ -54,15 +54,13 @@ if(isset($_SESSION['user_id'])) {
                     $total_user_likes = $count_user_likes->rowCount();
                     ?>
                     <p>bienvenue <span><?= $fetch_profile['name'] ?></span></p>
-                    <p>total commentaires : <span><?= $total_user_comments ?></span></p>
-                    <p>total avis : <span><?= $total_user_likes ?></span></p>
+                    <p>total avis : <span><?= $total_user_comments ?></span></p>
+                    <p>total likes : <span><?= $total_user_likes ?></span></p>
                     <a href="update.php" class="btn">modifier profil</a>
                     <div class="flex-btn">
-                        <a href="login.php" class="option-btn">se connecter</a>
-                        <a href="register.php" class="option-btn">s'enregistrer</a>
+                        <a href="user_likes.php" class="option-btn">likes</a>
+                        <a href="user_comments.php" class="option-btn">avis</a>
                     </div>
-                    <a href="components/user_logout.php" class="delete-btn" onclick="return confirm('Se déconnecter du site ?')">se
-                        déconnecter</a>
                     <?php
                 } else {
                     ?>

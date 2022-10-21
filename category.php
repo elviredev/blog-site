@@ -103,13 +103,7 @@ if (isset($_GET['category'])) {
             }
         ?>
     </div>
-    <p class="class-title">Avis utilisateurs</p>
-    <?php
-        // PART 10 47:03
-    ?>
-    <div class="show-comments">
 
-    </div>
 
 </section>
 

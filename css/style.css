@@ -9,14 +9,18 @@
    --light-bg:#f5f5f5;
    --light-color:#999;
    --border:.2rem solid var(--black);
-   --box-shadow:0 .5rem 1rem rgba(0,0,0,.1);
+   --border-light: .1rem solid var(--light-color);
+   --box-shadow:0 .5rem 1rem rgba(0,0,0,.3);
 }
 
+/*********** BASE ***********/
 *{
    font-family: 'Rubik', sans-serif;
-   margin:0; padding:0;
+   margin:0;
+   padding:0;
    box-sizing: border-box;
-   outline: none; border:none;
+   outline: none;
+   border:none;
    text-decoration: none;
 }
 
@@ -31,7 +35,7 @@
 }
 
 ::-webkit-scrollbar-track{
-   background-color: none;
+   background-color: transparent;
 }
 
 ::-webkit-scrollbar-thumb{
@@ -64,27 +68,36 @@ section{
    gap: 30px;
 }
 
+/*********** BUTTONS ***********/
 .btn,
 .delete-btn,
 .option-btn,
 .inline-btn,
 .inline-option-btn,
 .inline-delete-btn{
+   /*display: inline-block;*/
    margin-top: 1rem;
    border-radius: .5rem;
    cursor: pointer;
    font-size: 1.8rem;
    color:var(--white);
-   padding:1.2rem 3rem;
-   text-transform: capitalize;
+   padding:1rem 1.5rem;
    text-align: center;
+}
+.btn:first-letter,
+.delete-btn:first-letter,
+.option-btn:first-letter,
+.inline-btn:first-letter,
+.inline-option-btn:first-letter,
+.inline-delete-btn:first-letter {
+   text-transform: capitalize;
 }
 
 .inline-btn,
 .inline-option-btn,
 .inline-delete-btn{
    display: inline-block;
-   margin-right: 1rem;
+   margin-right: 0.5rem;
 }
 
 .btn,
@@ -123,17 +136,20 @@ section{
    gap:1rem;
 }
 
+/*********** MESSAGE D'INFOS ***********/
 .message{
    position: sticky;
    top:0;
-   max-width: 1200px;
    margin:0 auto;
    background-color: var(--light-bg);
+   /*box-shadow: var(--box-shadow);*/
+   /*border-bottom:var(--border-light);*/
    padding:2rem;
    display: flex;
    align-items: center;
-   gap:1rem;
    justify-content: space-between;
+   z-index: 10000;
+   max-width: 1200px;
 }
 
 .message span{
@@ -145,25 +161,688 @@ section{
    font-size: 2.5rem;
    color:var(--red);
    cursor: pointer;
+   transition: all 0.2s linear;
 }
 
 .message i:hover{
+   transform: rotate(90deg);
    color:var(--black);
 }
 
 .empty{
-   border:var(--border);
+   border:var(--border-light);
    border-radius: .5rem;
    background-color: var(--white);
    padding:1.5rem;
    text-align: center;
    width: 100%;
    font-size: 2rem;
-   text-transform: capitalize;
    color:var(--red);
-   box-shadow: var(--box-shadow);
+   /*box-shadow: var(--box-shadow);*/
 }
 
+/*********** HEADING ***********/
+.heading{
+   text-align: center;
+   margin-bottom: 2rem;
+   /*text-transform: capitalize;*/
+   color:var(--black);
+   font-size: 3.5rem;
+   font-weight: normal;
+}
+.heading::first-letter {
+   text-transform: capitalize;
+}
+
+/*********** HEADER ***********/
+.header {
+   position: sticky;
+   left: 0;
+   top: 0;
+   right: 0;
+   background-color: var(--white);
+   box-shadow: var(--box-shadow);
+   border-bottom: var(--border-light);
+}
+.header .flex {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   position: relative;
+   padding: 1.5rem 2rem;
+}
+.header .flex .logo {
+   font-size: 2.5rem;
+   color: var(--black);
+}
+.header .flex .search-form {
+   display: flex;
+   align-items: center;
+   gap: 1.5rem;
+   background-color: var(--light-bg);
+   border-radius: 0.5rem;
+   padding: 1.5rem;
+   width: 50rem;
+   border: var(--border-light);
+}
+.header .flex .search-form input {
+   background: none;
+   width: 100%;
+   font-size: 1.8rem;
+   color: var(--black);
+}
+.header .flex .search-form button {
+   font-size: 2rem;
+   color: var(--black);
+   cursor: pointer;
+   background: none;
+}
+.header .flex .search-form button:hover {
+   color: var(--main-color);
+}
+.header .flex .icons div {
+   cursor: pointer;
+   height: 4.5rem;
+   width: 5rem;
+   line-height: 4.1rem;
+   background-color: var(--light-bg);
+   border: var(--border-light);
+   border-radius: 0.5rem;
+   text-align: center;
+   color: var(--black);
+   font-size: 2rem;
+   margin-left: 0.7rem;
+   transition: all 0.2s linear;
+}
+.header .flex .icons div:hover {
+   background-color: var(--black);
+   color: var(--white);
+}
+#search-btn {
+   display: none;
+}
+.header .flex .navbar {
+   position: absolute;
+   top: 120%;
+   right: 2rem;
+   background-color: var(--white);
+   border: var(--border-light);
+   border-radius: 0.5rem;
+   box-shadow: var(--box-shadow);
+   padding: 1rem;
+   width: 33rem;
+   display: none;
+   animation: fadeIn 0.4s linear;
+}
+.header .flex .navbar.active {
+   display: block;
+}
+.header .flex .navbar a {
+   font-size: 2rem;
+   display: block;
+   padding: 1rem 0;
+}
+.header .flex .navbar a i {
+   color: var(--main-color);
+   margin-right: 1rem;
+   transition: 0.2s linear;
+}
+.header .flex .navbar a:hover i {
+   margin-right: 2rem;
+}
+.header .flex .navbar a span {
+   color: var(--light-color);
+}
+.header .flex .profile {
+   position: absolute;
+   top: 120%;
+   right: 2rem;
+   background-color: var(--white);
+   border: var(--border-light);
+   border-radius: 0.5rem;
+   box-shadow: var(--box-shadow);
+   padding: 1.5rem;
+   width: 33rem;
+   text-align: center;
+   display: none;
+   animation: fadeIn 0.4s linear;
+}
+.header .flex .profile.active {
+   display: block;
+}
+.header .flex .profile p {
+   margin-bottom: 0.5rem;
+   font-size: 1.8rem;
+   color: var(--light-color);
+   text-overflow: ellipsis;
+   white-space: nowrap;
+}
+
+@keyframes fadeIn {
+   0% {
+      transform: translateY(1rem);
+   }
+}
+
+/*********** FOOTER ***********/
+.footer {
+   position: fixed;
+   bottom: 0;
+   left: 0;
+   right: 0;
+   border-top: var(--border-light);
+   background-color: var(--white);
+   padding: 2.5rem 2rem;
+   font-size: 1.5rem;
+   text-align: center;
+   color: var(--light-color);
+}
+.footer span {
+   color: var(--main-color);
+}
+
+/*********** HOME ***********/
+.home-grid .box-container {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+   gap: 1.5rem;
+   align-items: flex-start;
+   justify-content: center;
+}
+.home-grid .box-container .box {
+   background-color: var(--white);
+   padding: 1.5rem;
+   border: var(--border-light);
+   border-radius: 0.5rem;
+   box-shadow: var(--box-shadow);
+}
+.home-grid .box-container .box p {
+   margin-bottom: 0.5rem;
+   font-size: 1.8rem;
+   color: var(--light-color);
+}
+.home-grid .box-container .box p:first-letter {
+   text-transform: capitalize;
+}
+.home-grid .box-container .box p span {
+   color: var(--main-color);
+}
+.home-grid .box-container .box .flex-box {
+   padding-top: 1.5rem;
+   display: flex;
+   flex-wrap: wrap;
+   gap: 1rem;
+}
+.home-grid .box-container .box .flex-box .links {
+   background-color: var(--light-bg);
+   padding: 0.5rem 2rem;
+   border: var(--border-light);
+   border-radius: 0.5rem;
+   font-size: 1.4rem;
+   color: var(--black);
+   text-transform: capitalize;
+   transition: all 0.4s ease-out;
+}
+.home-grid .box-container .box .flex-box .links:hover {
+   background-color: var(--black);
+   color: var(--white);
+}
+
+.posts-grid .box-container {
+   columns: 3 30rem;
+   gap: 2rem;
+}
+.posts-grid .box-container .box {
+   margin-bottom: 2rem;
+   background-color: var(--white);
+   border: var(--border-light);
+   border-radius: 0.5rem;
+   box-shadow: var(--box-shadow);
+   break-inside: avoid;
+   padding: 1.5rem;
+   overflow-x: hidden;
+}
+.posts-grid .box-container .box .image {
+   width: 100%;
+   height: 20rem;
+   object-fit: contain;
+   margin: 1rem 0;
+}
+.posts-grid .box-container .box .admin {
+   display: flex;
+   align-items: center;
+   gap: 1rem;
+}
+.posts-grid .box-container .box .admin i {
+   background-color: var(--light-bg);
+   height: 4.5rem;
+   width: 5rem;
+   line-height: 4.2rem;
+   border: var(--border-light);
+   border-radius: 0.5rem;
+   font-size: 2rem;
+   color: var(--black);
+   text-align: center;
+   margin-bottom: 0.5rem;
+}
+.posts-grid .box-container .box .admin .admin-info a {
+   font-size: 1.8rem;
+   color: var(--main-color);
+   transition: all 0.3s ease-out;
+}
+.posts-grid .box-container .box .admin .admin-info a:hover {
+   color: var(--black);
+   text-decoration: underline;
+}
+.posts-grid .box-container .box .admin .admin-info div {
+   margin-top: 0.2rem;
+   color: var(--light-color);
+   font-size: 1.2rem;
+}
+.posts-grid .box-container .box .title {
+   margin-top: 0.5rem;
+   font-size: 2rem;
+   color: var(--black);
+   text-overflow: ellipsis;
+   word-wrap: normal;
+   overflow-x: hidden;
+}
+.posts-grid .box-container .box .content {
+   line-height: 1.5;
+   font-size: 1.5rem;
+   color: var(--light-color);
+   padding-bottom: 0.5rem;
+   padding-top: 1rem;
+}
+.posts-grid .box-container .box .content::after {
+   content: '...';
+}
+.posts-grid .box-container .box .category {
+   display: block;
+   margin-top: 1.5rem;
+   font-size: 2rem;
+}
+.posts-grid .box-container .box .category i {
+   margin-right: 0.5rem;
+   color: var(--main-color);
+}
+.posts-grid .box-container .box .category span {
+   color: var(--light-color);
+   transition: color 0.3s ease;
+}
+.posts-grid .box-container .box .category:hover span {
+   color: var(--black);
+   text-decoration: underline;
+}
+.posts-grid .box-container .box .icons {
+   margin-top: 1.5rem;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   border: var(--border-light);
+   padding: 1.3rem;
+   border-radius: 0.5rem;
+   background-color: var(--light-bg);
+}
+.posts-grid .box-container .box .icons > * {
+   font-size: 1.5rem;
+   cursor: pointer;
+}
+.posts-grid .box-container .box .icons a:hover i,
+.posts-grid .box-container .box .icons a:hover span,
+.posts-grid .box-container .box .icons button:hover i,
+.posts-grid .box-container .box .icons button:hover span{
+   color: var(--black);
+}
+.posts-grid .box-container .box .icons i {
+   color: var(--light-color);
+   margin-right: 0.5rem;
+}
+.posts-grid .box-container .box .icons span {
+   color: var(--main-color);
+}
+
+/*********** ALL CATEGORY ***********/
+.categories .box-container {
+   background-color: var(--white);
+   padding: 1rem 2rem;
+   border: var(--border-light);
+   border-radius: 0.5rem;
+   box-shadow: var(--box-shadow);
+}
+.categories .box-container .box {
+   padding: 1rem 0;
+   display: flex;
+   align-items: center;
+   gap: 1rem;
+}
+.categories .box-container .box span {
+   background-color: var(--light-bg);
+   border: var(--border-light);
+   border-radius: 0.5rem;
+   height: 4.5rem;
+   width: 5rem;
+   line-height: 4.3rem;
+   text-align: center;
+   font-size: 2rem;
+   color: var(--light-color);
+}
+.categories .box-container .box a {
+   font-size: 2rem;
+   color: var(--black);
+   text-transform: capitalize;
+   transition: color 0.3s ease-out;
+}
+.categories .box-container .box a:hover {
+   color: var(--main-color);
+   text-decoration: underline;
+}
+
+/*********** AUTHORS ***********/
+.authors .box-container {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+   gap: 1.5rem;
+   justify-content: center;
+   align-items: flex-start;
+}
+.authors .box-container .box {
+   background-color: var(--white);
+   padding: 2rem;
+   border: var(--border-light);
+   border-radius: 0.5rem;
+   box-shadow: var(--box-shadow);
+}
+.authors .box-container .box p {
+   margin-bottom: 1rem;
+   font-size: 1.8rem;
+   color: var(--light-color);
+}
+.authors .box-container .box p:first-letter {
+   text-transform: capitalize;
+}
+.authors .box-container .box p span {
+   color: var(--main-color);
+}
+
+/*********** REGISTER ***********/
+.form-container {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   min-height: calc(100vh - 17rem);
+}
+.form-container form {
+   background-color: var(--white);
+   border: var(--border-light);
+   border-radius: 0.5rem;
+   box-shadow: var(--box-shadow);
+   padding: 2rem;
+   width: 50rem;
+   text-align: center;
+}
+.form-container form h3 {
+   margin-bottom: 1rem;
+   font-weight: normal;
+   font-size: 2.5rem;
+   color: var(--black);
+}
+.form-container form .box {
+   width: 100%;
+   margin: 1rem 0;
+   background-color: var(--light-bg);
+   border-radius: 0.5rem;
+   border: var(--border-light);
+   padding: 1.5rem;
+   font-size: 1.8rem;
+   color: var(--black);
+}
+
+/*********** VIEW POST ***********/
+.read-post form {
+   background-color: var(--white);
+   border: var(--border-light);
+   border-radius: 0.5rem;
+   box-shadow: var(--box-shadow);
+   padding: 1.5rem;
+   overflow-x: hidden;
+}
+.read-post form .image {
+   width: 100%;
+   object-fit: contain;
+   margin-top: 0.5rem;
+   margin-bottom: 1.5rem;
+   border-radius: 0.5rem;
+}
+.read-post form .admin {
+   display: flex;
+   gap: 1.5rem;
+   padding-bottom: 1rem;
+}
+.read-post form .admin i {
+   background-color: var(--light-bg);
+   height: 4.5rem;
+   width: 5rem;
+   line-height: 4.2rem;
+   border: var(--border-light);
+   border-radius: 0.5rem;
+   font-size: 2rem;
+   color: var(--black);
+   text-align: center;
+   margin-bottom: 0.5rem;
+}
+.read-post form .admin .admin-info a {
+   font-size: 1.8rem;
+   color: var(--main-color);
+   transition: all 0.3s ease-out;
+}
+.read-post form .admin .admin-info a:hover {
+   color: var(--black);
+   text-decoration: underline;
+}
+.read-post form .admin .admin-info div {
+   margin-top: 0.2rem;
+   color: var(--light-color);
+   font-size: 1.2rem;
+}
+.read-post form .title {
+   font-size: 2rem;
+   color: var(--black);
+   text-overflow: ellipsis;
+   word-wrap: normal;
+   overflow-x: hidden;
+}
+.read-post form .content {
+   line-height: 1.5;
+   font-size: 1.5rem;
+   color: var(--light-color);
+   padding-bottom: 0.5rem;
+   padding-top: 1rem;
+   white-space: pre-line;
+}
+.read-post form .category {
+   display: block;
+   margin-top: 1.5rem;
+   font-size: 2rem;
+}
+.read-post form .category i {
+   margin-right: 0.5rem;
+   color: var(--main-color);
+}
+.read-post form .category span {
+   color: var(--light-color);
+   transition: color 0.3s ease;
+}
+.read-post form .category:hover span {
+   color: var(--black);
+   text-decoration: underline;
+}
+.read-post form .icons {
+   margin-top: 1.5rem;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   border: var(--border-light);
+   padding: 1.3rem;
+   border-radius: 0.5rem;
+   background-color: var(--light-bg);
+}
+.read-post form .icons div {
+   font-size: 2rem;
+   cursor: pointer;
+}
+.read-post form .icons div:hover i,
+.read-post form .icons button:hover i,
+.read-post form .icons span:hover {
+   color: var(--black);
+}
+.read-post form .icons button {
+   cursor: pointer;
+   background: none;
+   font-size: 2rem;
+}
+.read-post form .icons i {
+   color: var(--light-color);
+   margin-right: 0.5rem;
+}
+.read-post form .icons span {
+   color: var(--main-color);
+}
+
+/* COMMENTS */
+.comments .comment-title {
+   background-color: var(--black);
+   border-top-left-radius: 0.5rem;
+   border-top-right-radius: 0.5rem;
+   padding: 1.5rem 2rem;
+   font-size: 2rem;
+   color: var(--white);
+}
+.comments .add-comment {
+   background-color: var(--white);
+   border-bottom-left-radius: 0.5rem;
+   border-bottom-right-radius: 0.5rem;
+   border: var(--border-light);
+   box-shadow: var(--box-shadow);
+   padding: 1.5rem;
+   color: var(--light-color);
+   margin-bottom: 2rem;
+}
+.comments .add-comment p {
+   font-size: 2rem;
+   margin-bottom: 1rem;
+}
+.comments .add-comment p i {
+   margin-right: 1rem;
+}
+.comments .add-comment p a {
+   color: var(--main-color);
+   transition: color 0.3s ease-out;
+}
+.comments .add-comment p a:hover {
+   color: var(--black);
+   text-decoration: underline;
+}
+.comments .add-comment .comment-box {
+   width: 100%;
+   height: 25rem;
+   margin: 0.5rem 0;
+   background-color: var(--light-bg);
+   padding: 1.5rem;
+   border: var(--border-light);
+   border-radius: 0.5rem;
+   font-size: 1.8rem;
+   color: var(--black);
+   resize: none;
+}
+.comments .show-comments {
+   display: grid;
+   gap: 2.5rem;
+   background-color: var(--white);
+   border: var(--border-light);
+   border-bottom-left-radius: 0.5rem;
+   border-bottom-right-radius: 0.5rem;
+   box-shadow: var(--box-shadow);
+   padding: 2rem;
+}
+.comments .show-comments .user-comments .user {
+   display: flex;
+   gap: 1.5rem;
+   align-items: center;
+   padding-bottom: 1rem;
+}
+.comments .show-comments .user-comments .user i {
+   height: 4.5rem;
+   width: 4.5rem;
+   line-height: 4.3rem;
+   border: var(--border-light);
+   border-radius: 50%;
+   color: var(--black);
+   font-size: 2rem;
+   text-align: center;
+}
+.comments .show-comments .user-comments .user p {
+   font-size: 1.8rem;
+   color: var(--main-color);
+}
+.comments .show-comments .user-comments .user div {
+   font-size: 1.3rem;
+   color: var(--light-color);
+   margin-top: 0.2rem;
+}
+.comments .show-comments .user-comments .comment-box {
+   background-color: var(--light-bg);
+   border: var(--border-light);
+   border-radius: 0.5rem;
+   padding: 1.5rem;
+   font-size: 1.8rem;
+   color: var(--black);
+   margin: 0.5rem 0;
+   white-space: pre-line;
+}
+/* Page user_comments.php */
+.comments .show-comments .user-comments .post-title {
+   font-size: 1.8rem;
+   margin-bottom: 1.5rem;
+   color: var(--light-color);
+}
+.comments .show-comments .user-comments .post-title span {
+   color: var(--black);
+}
+.comments .show-comments .user-comments .post-title a {
+   color: var(--main-color);
+   margin-left: 1rem;
+}
+.comments .show-comments .user-comments .post-title a:hover {
+   color: var(--black);
+   text-decoration: underline;
+}
+
+   /* Modifier un commentaire */
+.edit-comment-box form {
+   background-color: var(--white);
+   border: var(--border-light);
+   border-radius: 0.5rem;
+   box-shadow: var(--box-shadow);
+   padding: 2rem;
+}
+.edit-comment-box form h3 {
+   font-size: 2rem;
+   color: var(--light-color);
+   font-weight: normal;
+}
+.edit-comment-box form .comment-box {
+   width: 100%;
+   height: 20rem;
+   background-color: var(--light-bg);
+   border: var(--border-light);
+   border-radius: 0.5rem;
+   font-size: 1.6rem;
+   color: var(--black);
+   padding: 1.5rem;
+   margin: 0.5rem 0;
+   resize: none;
+}
 
 
 
@@ -171,6 +850,17 @@ section{
 
    html{
       font-size: 55%;
+   }
+
+}
+
+@media (max-width:855px){
+   .home-grid .box-container {
+      display: grid;
+      grid-column: span 3;
+      gap: 1.5rem;
+      align-items: flex-start;
+      justify-content: center;
    }
 
 }
@@ -187,7 +877,9 @@ section{
 
    .header .flex .search-form{
       position: absolute;
-      top:99%; left:0; right: 0;
+      top:99%;
+      left:0;
+      right: 0;
       border-left: none;
       border-right: none;
       border-radius: 0;
@@ -213,6 +905,10 @@ section{
 
    .heading{
       font-size: 3rem;
-   }  
+   }
+   .flex-btn {
+      flex-flow: column;
+      gap: 0;
+   }
 
 }
